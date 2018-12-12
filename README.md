@@ -27,7 +27,7 @@ FLAGS:
 
 OPTIONS:
     -d, --base-dir <base_dir>    The base directory that all of your repositories are inside [env:
-                                 GIT_PROJECT_BASE_DIR=/Users/nm46057/projects]
+                                 GIT_PROJECT_BASE_DIR=/Users/you/projects]
 
 SUBCOMMANDS:
     check    Check all repositories under the base path to ensure the are up to date with remotes.

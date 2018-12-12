@@ -102,7 +102,7 @@ Repositories with no warnings: 70
 ### `--deep-recurse`
 
 The `--deep-recurse` flag works exactly the same for this command as with the
-[`list`](#`git-project-list`) subcommand, but instead of just listing
+[`list`](#git-project-list) subcommand, but instead of just listing
 submodules, this command will check them.
 
 ### `--summary`

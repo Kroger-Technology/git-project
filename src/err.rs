@@ -1,10 +1,9 @@
-use auto_from::auto_from;
+use auto_from::From;
 use std::{fmt, io};
 
 pub type Result<T> = std::result::Result<T, Err>;
 
-#[auto_from]
-#[derive(Debug)]
+#[derive(Debug, From)]
 pub enum Err {
     InvalidUrl,
     NonDomainHost,

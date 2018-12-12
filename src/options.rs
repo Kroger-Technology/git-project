@@ -5,9 +5,6 @@ use structopt::StructOpt;
 #[derive(StructOpt)]
 pub struct Options {
     #[structopt(flatten)]
-    pub base: BaseOptions,
-
-    #[structopt(flatten)]
     pub command: Command,
 }
 
@@ -43,6 +40,9 @@ pub enum Command {
 
 #[derive(StructOpt)]
 pub struct CloneOptions {
+    #[structopt(flatten)]
+    pub base: BaseOptions,
+
     /// Print the clone location for the given URL and exit
     #[structopt(short = "-n", long = "--dry-run")]
     pub only_print_location: bool,
@@ -54,6 +54,9 @@ pub struct CloneOptions {
 
 #[derive(StructOpt)]
 pub struct ListOptions {
+    #[structopt(flatten)]
+    pub base: BaseOptions,
+
     /// Do not stop recursing when a .git folder is found
     #[structopt(short = "-r", long = "--deep-recurse")]
     pub deep_recurse: bool,
@@ -63,6 +66,9 @@ pub struct ListOptions {
 pub struct CheckOptions {
     #[structopt(flatten)]
     pub list_opts: ListOptions,
+
+    #[structopt(flatten)]
+    pub base: BaseOptions,
 
     /// Print a summary of the repositories
     #[structopt(short = "-s", long = "--summarize")]

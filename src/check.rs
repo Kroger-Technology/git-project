@@ -1,8 +1,4 @@
-use crate::{
-    err::Result,
-    explore,
-    options::{BaseOptions, CheckOptions},
-};
+use crate::{err::Result, explore, options::CheckOptions};
 use rayon::prelude::*;
 use std::{collections::HashMap, fmt, iter, path};
 
@@ -119,8 +115,9 @@ impl fmt::Display for Statistics {
     }
 }
 
-pub fn run(base_opts: &BaseOptions, check_opts: &CheckOptions) -> Result<()> {
-    let paths = explore::find_git_folders(&base_opts.base_dir, check_opts.list_opts.deep_recurse)?;
+pub fn run(check_opts: &CheckOptions) -> Result<()> {
+    let paths =
+        explore::find_git_folders(&check_opts.base.base_dir, check_opts.list_opts.deep_recurse)?;
 
     let stats: Statistics = paths
         .par_iter()

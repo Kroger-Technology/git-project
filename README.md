@@ -25,10 +25,6 @@ FLAGS:
     -h, --help       Prints help information
     -V, --version    Prints version information
 
-OPTIONS:
-    -d, --base-dir <base_dir>    The base directory that all of your repositories are inside [env:
-                                 GIT_PROJECT_BASE_DIR=/Users/you/projects]
-
 SUBCOMMANDS:
     check    Check all repositories under the base path to ensure the are up to date with remotes.
     clone    Clone a new project onto your system
@@ -41,9 +37,9 @@ SUBCOMMANDS:
 
 # Base Directory
 
-`git-project` always accepts a `--base-dir` or `-d` argument, or a
-`GIT_PROJECT_BASE_DIR` environment variable pointing to a directory where all
-of your git repositories are located.
+All of the `git-project` subcommands accept a `--base-dir` or `-d` argument,
+or a `GIT_PROJECT_BASE_DIR` environment variable pointing to a directory
+where all of your git repositories are located.
 
 # Subcommands
 

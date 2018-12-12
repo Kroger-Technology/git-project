@@ -1,14 +1,14 @@
 use crate::{
     err::{Err, Result},
-    options::{BaseOptions, CloneOptions},
+    options::CloneOptions,
     util,
 };
 use std::{fs, path, process};
 
-pub fn run(base_opts: &BaseOptions, clone_opts: &CloneOptions) -> Result<()> {
+pub fn run(clone_opts: &CloneOptions) -> Result<()> {
     let full_path = match url::Url::parse(&clone_opts.clone_url) {
-        Ok(u) => util::find_dir_url(&base_opts.base_dir, &u),
-        Err(_) => util::find_dir_ssh(&base_opts.base_dir, &clone_opts.clone_url),
+        Ok(u) => util::find_dir_url(&clone_opts.base.base_dir, &u),
+        Err(_) => util::find_dir_ssh(&clone_opts.base.base_dir, &clone_opts.clone_url),
     }?;
 
     if clone_opts.only_print_location {

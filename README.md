@@ -13,13 +13,12 @@ $ cargo install git-project
 
 ```
 λ git project -h
-Alias tip: g project -h
 git-project 0.1.0
 Nate Mara <nate.mara@kroger.com>
 A manager for all of your git projects
 
 USAGE:
-    git-project --base-dir <base_dir> <SUBCOMMAND>
+    git-project <SUBCOMMAND>
 
 FLAGS:
     -h, --help       Prints help information
@@ -32,7 +31,7 @@ SUBCOMMANDS:
              If you were to clone the project https://github.com/KrogerTechnology/git-project.git, git-project would
              put that in the path BASE_DIR/github.com/KrogerTechnology/git-project.
     help     Prints this message or the help of the given subcommand(s)
-    list     List all repositories under the base path`
+    list     List all repositories under the base path
 ```
 
 # Base Directory
@@ -73,26 +72,32 @@ computer are on a remote somewhere so that your work will not be lost if
 something happens to your computer.
 
 ```
+
 λ git-status-recursive
 /Users/nate/projects/not-mine/rust-peg
-  - branch left-recursion does not exist on remote origin
-  - branch template-return does not exist on remote origin
+
+- branch left-recursion does not exist on remote origin
+- branch template-return does not exist on remote origin
 
 /Users/nate/projects/personal/git-project
-  - local changes not checked in
-  - local branch master ahead of origin/master by 4 commits
+
+- local changes not checked in
+- local branch master ahead of origin/master by 4 commits
 
 /Users/nate/projects/personal/rbr-finding-exoplanets/cargo_home/registry/index/github.com-1ecc6299db9ec823
-  - local changes not checked in
+
+- local changes not checked in
 
 /Users/nate/projects/not-mine/DefinitelyTyped
-  - branch master does not exist on remote fork
+
+- branch master does not exist on remote fork
 
 ---- Summary ---
 Warnings: 6
 Scanned repositories: 74
 Repositories with warnings: 4
 Repositories with no warnings: 70
+
 ```
 
 ### `--deep-recurse`
@@ -124,6 +129,7 @@ recursing as an optimization. To search for submodules, use the
 Here is an example directory tree:
 
 ```
+
 foo/
 foo/.git
 foo/bar/src/main.rs
@@ -131,19 +137,26 @@ foo/bar/Cargo.toml
 foo/bar/.git
 bar/.git
 baz/.git
+
 ```
 
 And some example outputs
 
 ```
-$ git project list
+
+\$ git project list
 /home/you/projects/foo
 /home/you/projects/bar
 /home/you/projects/baz
 
-$ git project list --deep-recurse
+\$ git project list --deep-recurse
 /home/you/projects/foo
 /home/you/projects/foo/bar
 /home/you/projects/bar
 /home/you/projects/baz
+
+```
+
+```
+
 ```

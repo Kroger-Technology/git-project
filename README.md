@@ -1,7 +1,7 @@
 # `git-project`
 
 `git-project` allows you to quickly and easily manage the large number of git
-projects that can accrew on a modern developer's computer.
+projects that can accrue on a modern developer's computer.
 
 ## Installing
 

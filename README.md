@@ -106,9 +106,9 @@ The `--deep-recurse` flag works exactly the same for this command as with the
 [`list`](#git-project-list) subcommand, but instead of just listing
 submodules, this command will check them.
 
-### `--summary`
+### `--summarize`
 
-This flag prints a summary
+This flag prints a summary of all the repositories scanned.
 
 ### Warnings reported
 

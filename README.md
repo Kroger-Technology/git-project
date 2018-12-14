@@ -25,13 +25,11 @@ FLAGS:
     -V, --version    Prints version information
 
 SUBCOMMANDS:
-    check    Check all repositories under the base path to ensure the are up to date with remotes.
-    clone    Clone a new project onto your system
-
-             If you were to clone the project https://github.com/KrogerTechnology/git-project.git, git-project would
-             put that in the path BASE_DIR/github.com/KrogerTechnology/git-project.
-    help     Prints this message or the help of the given subcommand(s)
-    list     List all repositories under the base path
+    check       Check all repositories under the base path to ensure the are up to date with remotes
+    clone       Clone a new project into a folder based on the remote URL
+    help        Prints this message or the help of the given subcommand(s)
+    list        List all repositories under the base path
+    organize    Organize an existing directory of git repositories into a normalized format based on remotes
 ```
 
 # Base Directory
@@ -48,6 +46,37 @@ of managing git repositories.
 - clone
 - check
 - list
+- organize
+
+## `git project organize OLD_DIR NEW_DIR`
+
+This subcommand is used to organize a directory containing git repositories.
+Each repository will be placed into a folder based on its remote path. By
+default the "origin" remote is used, but if there is no origin, the first
+remote with a configured URL will be used. Here is a small example of how it
+can be used:
+
+```bash
+$ cd unorganized/foo
+$ git init
+$ git remote add origin https://github.com/KrogerTechnology/git-project.git
+
+$ cd ../bar
+$ git init
+$ git remote add origin git@gitlab.internal.com/you/git-project.git
+
+$ cd ../..
+$ git project organize unorganized organized
+
+$ git project list -d organized
+YOUR_DIR/organized/github.com/KrogerTechnology/git-project
+YOUR_DIR/organized/gitlab.internal.com/you/git-project
+```
+
+### `--dry-run`
+
+Do not move any files, just print out the moves that this command will
+execute.
 
 ## `git project clone URL`
 
@@ -72,7 +101,6 @@ computer are on a remote somewhere so that your work will not be lost if
 something happens to your computer.
 
 ```
-
 λ git-status-recursive
 /Users/nate/projects/not-mine/rust-peg
 
@@ -97,7 +125,6 @@ Warnings: 6
 Scanned repositories: 74
 Repositories with warnings: 4
 Repositories with no warnings: 70
-
 ```
 
 ### `--deep-recurse`
@@ -129,7 +156,6 @@ recursing as an optimization. To search for submodules, use the
 Here is an example directory tree:
 
 ```
-
 foo/
 foo/.git
 foo/bar/src/main.rs
@@ -137,26 +163,19 @@ foo/bar/Cargo.toml
 foo/bar/.git
 bar/.git
 baz/.git
-
 ```
 
 And some example outputs
 
 ```
-
-\$ git project list
+$ git project list
 /home/you/projects/foo
 /home/you/projects/bar
 /home/you/projects/baz
 
-\$ git project list --deep-recurse
+$ git project list --deep-recurse
 /home/you/projects/foo
 /home/you/projects/foo/bar
 /home/you/projects/bar
 /home/you/projects/baz
-
-```
-
-```
-
 ```

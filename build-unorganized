@@ -1,0 +1,17 @@
+#!/bin/sh
+
+function make {
+    local wd=$(pwd)
+    local dir="unorganized/${1}"
+    mkdir -p "${dir}"
+    cd "${dir}"
+    git init
+    git remote add origin "${2}"
+    echo "original path: ${dir}" >> info
+    cd "${wd}"
+}
+
+rm -rf unorganized organized
+
+make foo https://gitlab.kroger.com/kroger/git-project.git
+make bar git@github.com:/KrogerTechnology/git-project.git

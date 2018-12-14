@@ -7,6 +7,16 @@ lazy_static! {
     static ref SSH_REGEX: Regex = Regex::new(r"[^@]+@([^:]+):(.*)").unwrap();
 }
 
+pub fn find_dir<P>(base_dir: P, clone_url: &str) -> Result<path::PathBuf>
+where
+    P: AsRef<path::Path>,
+{
+    match url::Url::parse(clone_url) {
+        Ok(u) => find_dir_url(base_dir, &u),
+        Err(_) => find_dir_ssh(base_dir, &clone_url),
+    }
+}
+
 pub fn find_dir_ssh<P>(base_dir: P, clone_url: &str) -> Result<path::PathBuf>
 where
     P: AsRef<path::Path>,

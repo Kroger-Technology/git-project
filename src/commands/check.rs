@@ -116,8 +116,7 @@ impl fmt::Display for Statistics {
 }
 
 pub fn run(check_opts: &CheckOptions) -> Result<()> {
-    let paths =
-        explore::find_git_folders(&check_opts.base.base_dir, check_opts.list_opts.deep_recurse)?;
+    let paths = explore::find_git_folders(&check_opts.base.base_dir, check_opts.list.deep_recurse)?;
 
     let stats: Statistics = paths
         .par_iter()

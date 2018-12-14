@@ -22,10 +22,7 @@ pub struct BaseOptions {
 
 #[derive(StructOpt)]
 pub enum Command {
-    /// Clone a new project onto your system
-    ///
-    /// If you were to clone the project https://github.com/KrogerTechnology/git-project.git,
-    /// git-project would put that in the path BASE_DIR/github.com/KrogerTechnology/git-project.
+    /// Clone a new project into a folder based on the remote URL
     #[structopt(name = "clone")]
     Clone(CloneOptions),
 
@@ -33,9 +30,13 @@ pub enum Command {
     #[structopt(name = "list")]
     List(ListOptions),
 
-    /// Check all repositories under the base path to ensure the are up to date with remotes.
+    /// Check all repositories under the base path to ensure the are up to date with remotes
     #[structopt(name = "check")]
     Check(CheckOptions),
+
+    /// Organize an existing directory of git repositories into a normalized format based on remotes
+    #[structopt(name = "organize")]
+    Organize(OrganizeOptions),
 }
 
 #[derive(StructOpt)]
@@ -47,7 +48,7 @@ pub struct CloneOptions {
     #[structopt(short = "-n", long = "--dry-run")]
     pub only_print_location: bool,
 
-    /// The URL of the project to be cloned. Can be URL or ssh path.
+    /// The URL of the project to be cloned. Can be URL or ssh path
     #[structopt(name = "URL")]
     pub clone_url: String,
 }
@@ -57,6 +58,12 @@ pub struct ListOptions {
     #[structopt(flatten)]
     pub base: BaseOptions,
 
+    #[structopt(flatten)]
+    pub list: BaseListOptions,
+}
+
+#[derive(StructOpt)]
+pub struct BaseListOptions {
     /// Do not stop recursing when a .git folder is found
     #[structopt(short = "-r", long = "--deep-recurse")]
     pub deep_recurse: bool,
@@ -65,7 +72,7 @@ pub struct ListOptions {
 #[derive(StructOpt)]
 pub struct CheckOptions {
     #[structopt(flatten)]
-    pub list_opts: ListOptions,
+    pub list: BaseListOptions,
 
     #[structopt(flatten)]
     pub base: BaseOptions,
@@ -73,4 +80,19 @@ pub struct CheckOptions {
     /// Print a summary of the repositories
     #[structopt(short = "-s", long = "--summarize")]
     pub summarize: bool,
+}
+
+#[derive(StructOpt)]
+pub struct OrganizeOptions {
+    /// Directory to organize
+    #[structopt(name = "DIR", parse(from_os_str))]
+    pub dir: path::PathBuf,
+
+    /// Directory to place organized repositories in
+    #[structopt(name = "NEW_DIR", parse(from_os_str))]
+    pub new_dir: path::PathBuf,
+
+    /// Print out the folders that will be moved without actually moving anything
+    #[structopt(short = "-n", long = "--dry-run")]
+    pub dry_run: bool,
 }

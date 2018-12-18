@@ -61,7 +61,7 @@ can be used:
 ```bash
 $ cd unorganized/foo
 $ git init
-$ git remote add origin https://github.com/KrogerTechnology/git-project.git
+$ git remote add origin https://github.com/Kroger-Technology/git-project.git
 
 $ cd ../bar
 $ git init
@@ -71,7 +71,7 @@ $ cd ../..
 $ git project organize unorganized organized
 
 $ git project list -d organized
-YOUR_DIR/organized/github.com/KrogerTechnology/git-project
+YOUR_DIR/organized/github.com/Kroger-Technology/git-project
 YOUR_DIR/organized/gitlab.internal.com/you/git-project
 ```
 
@@ -86,8 +86,8 @@ This subcommand is used to clone a repository onto your computer. What's the
 difference between this, and a normal `git clone`? `git project clone` will
 automatically clone the project to a folder matching the URL that you give it!
 
-- `https://github.com/KrogerTechnology/git-project.git` is cloned to
-  `/base-dir/github.com/KrogerTechnology/git-project`
+- `https://github.com/Kroger-Technology/git-project.git` is cloned to
+  `/base-dir/github.com/Kroger-Technology/git-project`
 
 - `git@gitlab.internal.com:you/git-project.git` is cloned to
   `/base-dir/gitlab.internal.com/you/git-project`

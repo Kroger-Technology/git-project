@@ -14,4 +14,4 @@ function make {
 rm -rf unorganized organized
 
 make foo https://gitlab.kroger.com/kroger/git-project.git
-make bar git@github.com:/KrogerTechnology/git-project.git
+make bar git@github.com:/Kroger-Technology/git-project.git

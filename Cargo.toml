@@ -2,8 +2,10 @@
 name = "git-project"
 version = "0.1.0"
 authors = ["Nate Mara <nate.mara@kroger.com>"]
-
 edition = "2018"
+repository = "https://github.com/Kroger-Technology/git-project"
+license = "Apache-2.0"
+categories = ["command-line-utilities", "development-tools"]
 
 [dependencies]
 url = "1.7.2"

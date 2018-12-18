@@ -25,11 +25,12 @@ FLAGS:
     -V, --version    Prints version information
 
 SUBCOMMANDS:
-    check       Check all repositories under the base path to ensure the are up to date with remotes
-    clone       Clone a new project into a folder based on the remote URL
-    help        Prints this message or the help of the given subcommand(s)
-    list        List all repositories under the base path
-    organize    Organize an existing directory of git repositories into a normalized format based on remotes
+    check              Check all repositories under the base path to ensure the are up to date with remotes
+    clone              Clone a new project into a folder based on the remote URL
+    gen-completions    Generate CLI completions for your shell of choice
+    help               Prints this message or the help of the given subcommand(s)
+    list               List all repositories under the base path
+    organize           Organize an existing directory of git repositories into a normalized format based on remotes
 ```
 
 # Base Directory
@@ -47,6 +48,7 @@ of managing git repositories.
 - check
 - list
 - organize
+- gen-completions
 
 ## `git project organize OLD_DIR NEW_DIR`
 
@@ -179,3 +181,14 @@ $ git project list --deep-recurse
 /home/you/projects/bar
 /home/you/projects/baz
 ```
+
+## `git project gen-completions SHELL`
+
+This subcommand will generate autocomplete scripts for your shell of choice.
+Scripts will be printed to stdout. Current shell options are:
+
+- bash
+- zsh
+- fish
+- powershell
+- elvish

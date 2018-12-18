@@ -4,7 +4,7 @@ mod explore;
 pub mod options;
 mod util;
 
-use crate::commands::{check, clone, list, organize};
+use crate::commands::{check, clone, list, organize, gen_completions};
 
 #[cfg(test)]
 mod test;
@@ -18,5 +18,6 @@ pub fn run(opts: &Options) -> Result<()> {
         options::Command::List(list_opts) => list::run(&list_opts),
         options::Command::Check(list_opts) => check::run(&list_opts),
         options::Command::Organize(organize_opts) => organize::run(&organize_opts),
+        options::Command::GenCompletions(completion_opts) => gen_completions::run(&completion_opts),
     }
 }

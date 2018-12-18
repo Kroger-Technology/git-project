@@ -1,5 +1,5 @@
 use std::path;
-use structopt::StructOpt;
+use structopt::{clap, StructOpt};
 
 /// A manager for all of your git projects
 #[derive(StructOpt)]
@@ -37,6 +37,10 @@ pub enum Command {
     /// Organize an existing directory of git repositories into a normalized format based on remotes
     #[structopt(name = "organize")]
     Organize(OrganizeOptions),
+
+    /// Generate CLI completions for your shell of choice
+    #[structopt(name = "gen-completions")]
+    GenCompletions(CompletionOptions),
 }
 
 #[derive(StructOpt)]
@@ -95,4 +99,17 @@ pub struct OrganizeOptions {
     /// Print out the folders that will be moved without actually moving anything
     #[structopt(short = "-n", long = "--dry-run")]
     pub dry_run: bool,
+}
+
+#[derive(StructOpt)]
+pub struct CompletionOptions {
+    /// The shell that the completions will be compatible with
+    #[structopt(
+        name = "SHELL",
+        raw(
+            possible_values = "&clap::Shell::variants()",
+            case_insensitive = "true"
+        )
+    )]
+    pub shell: clap::Shell,
 }

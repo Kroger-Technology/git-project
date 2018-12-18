@@ -6,6 +6,8 @@ edition = "2018"
 repository = "https://github.com/Kroger-Technology/git-project"
 license = "Apache-2.0"
 categories = ["command-line-utilities", "development-tools"]
+readme = "README.md"
+description = "Manage piles of git repositories with ease!"
 
 [dependencies]
 url = "1.7.2"

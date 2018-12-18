@@ -12,7 +12,7 @@ $ cargo install git-project
 # Usage
 
 ```
-λ git project -h
+$ git project -h
 git-project 0.1.0
 Nate Mara <nate.mara@kroger.com>
 A manager for all of your git projects
@@ -103,7 +103,7 @@ computer are on a remote somewhere so that your work will not be lost if
 something happens to your computer.
 
 ```
-λ git-status-recursive
+$ git project check --summarize
 /Users/nate/projects/not-mine/rust-peg
 
 - branch left-recursion does not exist on remote origin

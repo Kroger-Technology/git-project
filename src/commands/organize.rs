@@ -1,4 +1,9 @@
-use crate::{err::Result, explore, options::OrganizeOptions, util};
+use crate::{
+    err::Result,
+    explore,
+    options::OrganizeOptions,
+    util::{self, PathRelativizeExtension},
+};
 use std::fs;
 
 pub fn run(opts: &OrganizeOptions) -> Result<()> {
@@ -16,7 +21,11 @@ pub fn run(opts: &OrganizeOptions) -> Result<()> {
             None => "no-remote".into(),
         };
 
-        println!("{} -> {}", dir.display(), new_dir.display());
+        println!(
+            "{} -> {}",
+            dir.normalize_relative_to(&opts.dir).display(),
+            new_dir.normalize_relative_to(&opts.new_dir).display()
+        );
 
         if !opts.dry_run {
             fs::create_dir_all(new_dir.parent().unwrap())?;

@@ -1,4 +1,4 @@
-use std::path;
+use std::{ffi, path};
 use structopt::{clap, StructOpt};
 
 /// A manager for all of your git projects
@@ -15,7 +15,7 @@ pub struct BaseOptions {
         short = "-d",
         long = "--base-dir",
         env = "GIT_PROJECT_BASE_DIR",
-        parse(from_os_str)
+        parse(try_from_os_str = "parse_canonical_path")
     )]
     pub base_dir: path::PathBuf,
 }
@@ -112,4 +112,13 @@ pub struct CompletionOptions {
         )
     )]
     pub shell: clap::Shell,
+}
+
+fn parse_canonical_path(path_str: &ffi::OsStr) -> Result<path::PathBuf, ffi::OsString> {
+    path::Path::new(path_str).canonicalize().map_err(|err| {
+        ffi::OsString::from(format!(
+            "Unable to recognize base directory as absolute path: {}",
+            err
+        ))
+    })
 }

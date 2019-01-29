@@ -1,4 +1,9 @@
-use crate::{err::Result, explore, options::CheckOptions};
+use crate::{
+    err::Result,
+    explore,
+    options::CheckOptions,
+    util::{self, PathRelativizeExtension},
+};
 use rayon::prelude::*;
 use std::{collections::HashMap, fmt, iter, path};
 
@@ -18,6 +23,11 @@ enum Warning {
     LocalBranchNotOnRemote {
         remote: String,
         branch: String,
+    },
+    LocalPathDifferentFromOrigin {
+        local_path: path::PathBuf,
+        expected_path: path::PathBuf,
+        origin: String,
     },
 }
 
@@ -59,6 +69,17 @@ impl fmt::Display for Warning {
                 f,
                 "local branch {} does not exist on remote {}",
                 branch, remote
+            ),
+            Warning::LocalPathDifferentFromOrigin {
+                local_path,
+                origin,
+                expected_path,
+            } => write!(
+                f,
+                "should be at path {} based on origin url {}, but is at path {}",
+                expected_path.display(),
+                origin,
+                local_path.display(),
             ),
         }
     }
@@ -120,7 +141,7 @@ pub fn run(check_opts: &CheckOptions) -> Result<()> {
 
     let stats: Statistics = paths
         .par_iter()
-        .map(check_git_dir_entry)
+        .map(|dir| check_git_dir_entry(dir, &check_opts.base.base_dir))
         .filter_map(|result| match result {
             Ok(x) => Some(x),
             Err(e) => {
@@ -144,7 +165,7 @@ pub fn run(check_opts: &CheckOptions) -> Result<()> {
     Ok(())
 }
 
-fn check_git_dir_entry(git_path: &path::PathBuf) -> Result<Repository> {
+fn check_git_dir_entry(git_path: &path::PathBuf, base_dir: &path::Path) -> Result<Repository> {
     let repo = git2::Repository::open(&git_path)?;
 
     let mut warnings = Vec::new();
@@ -159,7 +180,7 @@ fn check_git_dir_entry(git_path: &path::PathBuf) -> Result<Repository> {
     let remotes = generate_remote_tips(strip_branch_errors(remote_branches))?;
     let local_tips = generate_tips(strip_branch_errors(local_branches))?;
 
-    if remotes.is_empty() {
+    if repo.remotes()?.is_empty() {
         warnings.push(Warning::NoRemotes);
     }
 
@@ -189,8 +210,22 @@ fn check_git_dir_entry(git_path: &path::PathBuf) -> Result<Repository> {
         }
     }
 
+    if let Ok(origin) = repo.find_remote("origin") {
+        if let Some(url) = origin.url() {
+            if let Ok(expected_path) = util::find_dir(base_dir, url) {
+                if expected_path != *git_path {
+                    warnings.push(Warning::LocalPathDifferentFromOrigin {
+                        expected_path: expected_path.normalize_relative_to(base_dir),
+                        local_path: git_path.normalize_relative_to(base_dir),
+                        origin: url.into(),
+                    });
+                }
+            }
+        }
+    }
+
     Ok(Repository {
-        path: format!("{}", git_path.display()),
+        path: format!("{}", git_path.normalize_relative_to(base_dir).display()),
         warnings,
     })
 }

@@ -1,4 +1,4 @@
-use crate::{err::Result, explore, options::ListOptions};
+use crate::{err::Result, explore, options::ListOptions, util::PathRelativizeExtension};
 
 use std::io::{self, prelude::*};
 
@@ -8,7 +8,11 @@ pub fn run(list_opts: &ListOptions) -> Result<()> {
     let mut lock = stdin.lock();
 
     for d in dirs {
-        writeln!(lock, "{}", d.display())?;
+        writeln!(
+            lock,
+            "{}",
+            d.normalize_relative_to(&list_opts.base.base_dir).display()
+        )?;
     }
 
     Ok(())

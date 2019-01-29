@@ -1,17 +1,19 @@
 #!/bin/sh
+# shellcheck disable=SC2039
 
-function make {
-    local wd=$(pwd)
+make_repo() {
+    local wd
+    wd=$(pwd)
     local dir="unorganized/${1}"
     mkdir -p "${dir}"
-    cd "${dir}"
+    cd "${dir}" || exit 1
     git init
     git remote add origin "${2}"
     echo "original path: ${dir}" >> info
-    cd "${wd}"
+    cd "${wd}" || exit 1
 }
 
 rm -rf unorganized organized
 
-make foo https://gitlab.kroger.com/kroger/git-project.git
-make bar git@github.com:/Kroger-Technology/git-project.git
+make_repo foo https://gitlab.kroger.com/kroger/git-project.git
+make_repo bar git@github.com:/Kroger-Technology/git-project.git

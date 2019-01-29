@@ -64,3 +64,18 @@ fn remove_dotgit(s: &str) -> &str {
         s
     }
 }
+
+pub trait PathRelativizeExtension {
+    fn relative_to(self, base_dir: &path::Path) -> Option<path::PathBuf>;
+    fn normalize_relative_to(self, base_dir: &path::Path) -> path::PathBuf;
+}
+
+impl PathRelativizeExtension for &path::Path {
+    fn relative_to(self, base_dir: &path::Path) -> Option<path::PathBuf> {
+        pathdiff::diff_paths(&self, base_dir)
+    }
+
+    fn normalize_relative_to(self, base_dir: &path::Path) -> path::PathBuf {
+        self.relative_to(base_dir).unwrap_or_else(|| self.into())
+    }
+}
